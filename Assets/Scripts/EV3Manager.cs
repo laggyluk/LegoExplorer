@@ -135,7 +135,7 @@ public class EV3Manager : MonoBehaviour
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         activityContext = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
 
@@ -196,8 +196,9 @@ public class EV3Manager : MonoBehaviour
 
         if(InitialiseOnStart)
             ev3Plugin.Call("initialisePlugin");
-#else
         GUIManager.Instance.LoadConnectionScreen();
+#else
+        GUIManager.Instance.LoadGameplayScreen();
 #endif
     }
 

@@ -44,11 +44,11 @@ public class GUIManager : MonoBehaviour
     public GameObject SplashPanel;
     public GameObject ConnectionPanel;
     public GameObject GameplayPanel;
+    public GameObject VideoConfigPanel;
     public GameObject MenuPanel;
     public GameObject MotorsPanel;
     //power sliders
-    public Slider slider1, slider2;
-    public 
+    public Slider slider1, slider2;     
 
     #endregion Properties
 
@@ -134,10 +134,10 @@ public class GUIManager : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         SplashPanel.SetActive(false);
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         ConnectionPanel.SetActive(true);
-#else
-        MotorsPanel.SetActive(true);
+#else        
+        //MotorsPanel.SetActive(true);
 #endif
     }
 
@@ -149,6 +149,15 @@ public class GUIManager : MonoBehaviour
         }
 
         GameplayPanel.SetActive(true);
+    }
+
+    public void LoadVideoConfigScreen()
+    {
+        foreach (GameObject panel in Panels)
+        {
+            panel.SetActive(false);
+        }
+        VideoConfigPanel.SetActive(true);
     }
 
     public void LoadMenuScreen()
