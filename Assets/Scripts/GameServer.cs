@@ -10,7 +10,8 @@ public enum StreamMode { continous, randomChunks}
 public class GameServer : MonoBehaviour, INetEventListener
 {
     public StreamMode streamMode;
-    
+    public Text receivedMessageInfo;
+    public StartMotor localForwardBtn, localBackwardBtn, localLeftBtn, localRightBtn;
     public int chunksEachFrame = 512;
     public Image blueBlinker;
     public RenderTexture renderTex;
@@ -168,10 +169,43 @@ public class GameServer : MonoBehaviour, INetEventListener
         Debug.Log("[SERVER] peer disconnected " + peer.EndPoint + ", info: " + disconnectInfo.Reason);
         if (peer == _ourPeer)
             _ourPeer = null;
+        //stop motors if controller disconnected
+        EV3Manager.Instance.StopDriveMotors();
+        EV3Manager.Instance.StopDirectionMotor();
     }
 
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
     {
-        
+        ControlMsg msg = (ControlMsg)reader.GetInt();
+        bool turnOn = reader.GetInt() > 0;
+        receivedMessageInfo.text = string.Format("received message: {0} {1}",msg, turnOn);
+
+        switch(msg)
+        {
+            case ControlMsg.forward:
+                if(turnOn)
+                    localForwardBtn.OnPointerDown(null);
+                else
+                    localForwardBtn.OnPointerUp(null);
+                break;
+            case ControlMsg.backward:
+                if (turnOn)
+                    localBackwardBtn.OnPointerDown(null);
+                else
+                    localBackwardBtn.OnPointerUp(null);
+                break;
+            case ControlMsg.left:
+                if (turnOn)
+                    localLeftBtn.OnPointerDown(null);
+                else
+                    localLeftBtn.OnPointerUp(null);
+                break;
+            case ControlMsg.right:
+                if (turnOn)
+                    localRightBtn.OnPointerDown(null);
+                else
+                    localRightBtn.OnPointerUp(null);
+                break;
+        }
     }
 }

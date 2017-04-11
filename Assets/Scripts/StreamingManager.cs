@@ -102,6 +102,7 @@ public class StreamingManager : MonoBehaviour {
         configPanel.SetActive(!configPanel.activeSelf);
     }
 
+
     private void OnApplicationQuit()
     {
         //save settings

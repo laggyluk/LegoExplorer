@@ -3,8 +3,11 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine.UI;
 
+public enum ControlMsg { forward, backward, left, right }
+
 public class GameClient : MonoBehaviour, INetEventListener
 {
+    
     public RawImage clientRenderTex;
     Texture2D clientTex;
 
@@ -43,6 +46,31 @@ public class GameClient : MonoBehaviour, INetEventListener
         {
             _netClient.SendDiscoveryRequest(new byte[] { 1 }, 5000);
         }
+    }
+
+    NetDataWriter cmdWriter = new NetDataWriter(); 
+    public void OnRemoteControlBtnDown(int parameter) //param is casted to ControlMs on the other side of connection
+    {
+        ControlMsg msg = (ControlMsg)parameter;
+        var peer = _netClient.GetFirstPeer();
+        if (peer == null) return;
+        cmdWriter.Reset();
+        cmdWriter.Put(parameter);
+        int on = 1;
+        cmdWriter.Put(on);
+        peer.Send(cmdWriter, SendOptions.ReliableOrdered);             // Send with reliability
+    }
+
+    public void OnRemoteControlBtnUp(int parameter) //param is casted to ControlMs on the other side of connection
+    {
+        ControlMsg msg = (ControlMsg)parameter;
+        var peer = _netClient.GetFirstPeer();
+        if (peer == null) return;
+        cmdWriter.Reset();
+        cmdWriter.Put(parameter);
+        int off = 0;
+        cmdWriter.Put(off);
+        peer.Send(cmdWriter, SendOptions.ReliableOrdered);             // Send with reliability
     }
 
     public void OnPeerConnected(NetPeer peer)

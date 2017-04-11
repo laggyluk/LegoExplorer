@@ -34,6 +34,7 @@ public class CalibrateDirectionMotor : MonoBehaviour {
     //stops direction motor if it runs for too long in same direction
     void Update()
     {
+        /*
         if (!active) return;
         bool stop = false;
         if(direction==MoveDirection.left)
@@ -60,6 +61,7 @@ public class CalibrateDirectionMotor : MonoBehaviour {
             active = false;
             EV3Manager.Instance.StopDirectionMotor();
         }
+        */
     }
 
     static MoveDirection direction;

@@ -47,6 +47,7 @@ public class GUIManager : MonoBehaviour
     public GameObject VideoConfigPanel;
     public GameObject MenuPanel;
     public GameObject MotorsPanel;
+    public GameObject remoteGameplayPanel;
     //power sliders
     public Slider slider1, slider2;
     //menu buttons
@@ -155,8 +156,10 @@ public class GUIManager : MonoBehaviour
         {
             panel.SetActive(false);
         }
-
-        GameplayPanel.SetActive(true);
+        if (StreamingManager.roleServer)
+            GameplayPanel.SetActive(true);
+        else
+            remoteGameplayPanel.SetActive(true);
     }
 
     public void LoadVideoConfigScreen()
