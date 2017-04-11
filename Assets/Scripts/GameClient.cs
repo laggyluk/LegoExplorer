@@ -70,8 +70,8 @@ public class GameClient : MonoBehaviour, INetEventListener
                     int h;
                     if (int.TryParse(Utils.EatString(ref s), out h))
                     {
-                        clientTex = new Texture2D(w, h, WorldManager.Inst.textureFormat, false);
-                        buffer = new byte[w * h * Utils.SomeTextureFormatsToBytes(WorldManager.Inst.textureFormat)];//where 16 is fixed render texture bit depth
+                        clientTex = new Texture2D(w, h, StreamingManager.Inst.textureFormat, false);
+                        buffer = new byte[w * h * Utils.SomeTextureFormatsToBytes(StreamingManager.Inst.textureFormat)];//where 16 is fixed render texture bit depth
                         clientRenderTex.texture = clientTex;
                     }    
                 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WorldManager : MonoBehaviour {
+public class StreamingManager : MonoBehaviour {
 
     
     public Text roleText;
@@ -13,10 +13,10 @@ public class WorldManager : MonoBehaviour {
     public RawImage serverTex, clientTex;
     //camera used for image source when no hardware camera exists
     public Camera dummyCamera;
-    public static WorldManager Inst;
+    public static StreamingManager Inst;
     public TextureFormat textureFormat = TextureFormat.RGB24;
     //app can be either client receiving video image or server sending it
-    bool roleServer;
+    public static bool roleServer;
     GameServer server;
     GameClient client;
     
@@ -48,7 +48,7 @@ public class WorldManager : MonoBehaviour {
         {
             server.Shutdown();
             client.Init();
-            roleText.text = "role: client";
+            roleText.text = "role: controller";
             dummyCamera.gameObject.SetActive(false);
             serverTex.enabled = false;
             clientTex.enabled = true;
@@ -57,19 +57,20 @@ public class WorldManager : MonoBehaviour {
         {
             client.Shutdown();
             server.Init();
-            roleText.text = "role: server";
+            roleText.text = "role: buggy";
             dummyCamera.gameObject.SetActive(true);
             serverTex.enabled = true;
             clientTex.enabled = false;
         }
         roleServer = !roleServer;
+        GUIManager.Instance.motorConfigBtn.interactable = GUIManager.Instance.videoConfigBtn.interactable = GUIManager.Instance.connectionBtn.interactable = roleServer;        
         //grabIntervalSlider.gameObject.SetActive(roleServer);
     }
 
     public void OnIntervalSliderChanged()
     {
         float val = grabIntervalSlider.value;
-        DummyRender.grabIntervalSeconds = val;
+        VideoCapture.grabIntervalSeconds = val;
         grabIntervalSlider.GetComponentInChildren<Text>().text = string.Format("frame grab interval: {0:0.00}(s)", val);
     }
 

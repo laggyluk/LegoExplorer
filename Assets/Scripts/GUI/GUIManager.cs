@@ -48,8 +48,9 @@ public class GUIManager : MonoBehaviour
     public GameObject MenuPanel;
     public GameObject MotorsPanel;
     //power sliders
-    public Slider slider1, slider2;     
-
+    public Slider slider1, slider2;
+    //menu buttons
+    public Button motorConfigBtn, videoConfigBtn, connectionBtn;
     #endregion Properties
 
     #region Unity Loop
@@ -131,13 +132,20 @@ public class GUIManager : MonoBehaviour
 
     IEnumerator loopAndLoad()
     {
-        yield return new WaitForSeconds(2);
-
+        foreach (GameObject panel in Panels)
+        {
+            panel.SetActive(false);
+        }
+        SplashPanel.SetActive(true);
+        yield return new WaitForSeconds(2);        
         SplashPanel.SetActive(false);
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-        ConnectionPanel.SetActive(true);
-#else        
-        //MotorsPanel.SetActive(true);
+        
+        if(StreamingManager.roleServer) ConnectionPanel.SetActive(true);
+        else LoadGameplayScreen();
+#else
+        MenuPanel.SetActive(true);
 #endif
     }
 
@@ -168,6 +176,8 @@ public class GUIManager : MonoBehaviour
         }
 
         MenuPanel.SetActive(true);
+        //disable buttons basing on current role
+        motorConfigBtn.interactable = videoConfigBtn.interactable = connectionBtn.interactable = StreamingManager.roleServer;        
     }
 
     public void LoadMotorsScreen()

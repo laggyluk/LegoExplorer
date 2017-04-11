@@ -74,7 +74,7 @@ public class GameServer : MonoBehaviour, INetEventListener
             {
                 //how much bytes we can fit in packet?
                 int headerSize = sizeof(int)+1;//pix index, compression mode
-                int bytesInChunk = (_ourPeer.Mtu / Utils.SomeTextureFormatsToBytes(WorldManager.Inst.textureFormat)) - headerSize;                                
+                int bytesInChunk = (_ourPeer.Mtu / Utils.SomeTextureFormatsToBytes(StreamingManager.Inst.textureFormat)) - headerSize;                                
                 for (int j = 0; j < chunksEachFrame; ++j)
                 {
                     if(streamMode==StreamMode.randomChunks)
@@ -134,7 +134,7 @@ public class GameServer : MonoBehaviour, INetEventListener
         _ourPeer = peer;
         NetDataWriter writer = new NetDataWriter();                 // Create writer class        
         //send video resolution
-        Vector2 size = DummyRender.GetImageSize();
+        Vector2 size = VideoCapture.GetImageSize();
         writer.Put(string.Format("{0};{1}",size.x,size.y));
         peer.Send(writer, SendOptions.ReliableOrdered);             // Send with reliability
     }

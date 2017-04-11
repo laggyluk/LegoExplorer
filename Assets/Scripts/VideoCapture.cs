@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public enum CaptureMode { render, camera }
 
-public class DummyRender : MonoBehaviour {
+public class VideoCapture : MonoBehaviour {
 
     public RawImage display;
     public static float grabIntervalSeconds = 1;
@@ -16,7 +16,7 @@ public class DummyRender : MonoBehaviour {
     public RenderTexture renderTex;
     Texture2D bufTex;
     public static WebCamTexture webCamTex;
-    static DummyRender Inst;
+    static VideoCapture Inst;
     public GameObject dummyObject;
     public MeshRenderer webcamDisplay;
 
@@ -30,7 +30,7 @@ public class DummyRender : MonoBehaviour {
     {
         try
         {
-            bufTex = new Texture2D(renderTex.width, renderTex.height, WorldManager.Inst.textureFormat, false);            
+            bufTex = new Texture2D(renderTex.width, renderTex.height, StreamingManager.Inst.textureFormat, false);            
             //try to initialize hardware camera
             WebCamDevice[] devices = WebCamTexture.devices;
             string camName = "";
