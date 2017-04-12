@@ -3,7 +3,7 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine.UI;
 
-public enum ControlMsg { forward, backward, left, right }
+public enum ControlMsg { forward, backward, left, right, light }
 
 public class GameClient : MonoBehaviour, INetEventListener
 {
@@ -70,6 +70,17 @@ public class GameClient : MonoBehaviour, INetEventListener
         cmdWriter.Put(parameter);
         int off = 0;
         cmdWriter.Put(off);
+        peer.Send(cmdWriter, SendOptions.ReliableOrdered);             // Send with reliability
+    }
+
+    public void OnToggleFlashLightBtnClick()
+    {
+        ControlMsg msg = ControlMsg.light;
+        var peer = _netClient.GetFirstPeer();
+        if (peer == null) return;
+        cmdWriter.Reset();
+        cmdWriter.Put((int)msg);        
+        cmdWriter.Put(1);
         peer.Send(cmdWriter, SendOptions.ReliableOrdered);             // Send with reliability
     }
 

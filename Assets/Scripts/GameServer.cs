@@ -174,6 +174,7 @@ public class GameServer : MonoBehaviour, INetEventListener
         EV3Manager.Instance.StopDirectionMotor();
     }
 
+    //process commands received from remote controller
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
     {
         ControlMsg msg = (ControlMsg)reader.GetInt();
@@ -205,6 +206,9 @@ public class GameServer : MonoBehaviour, INetEventListener
                     localRightBtn.OnPointerDown(null);
                 else
                     localRightBtn.OnPointerUp(null);
+                break;
+            case ControlMsg.light:
+                FlashLight.ToggleAndroidFlashlight();
                 break;
         }
     }

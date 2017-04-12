@@ -193,6 +193,11 @@ public class GUIManager : MonoBehaviour
         MotorsPanel.SetActive(true);
     }
 
+    public void OnToggleLightBtnClick()
+    {
+        FlashLight.ToggleAndroidFlashlight();
+    }
+
     public void QuitApp()
     {
         PlayerPrefs.SetFloat("slider1", slider1.value);
