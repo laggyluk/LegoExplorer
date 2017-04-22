@@ -41,7 +41,8 @@ public class StreamingManager : MonoBehaviour {
         roleServer = !(PlayerPrefs.GetInt("roleServer", 0) > 0);
         SwitchRole();
     }
-	
+	    
+
     public void SwitchRole()
     {
         if (roleServer)

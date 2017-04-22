@@ -46,6 +46,18 @@ public class GameClient : MonoBehaviour, INetEventListener
         {
             _netClient.SendDiscoveryRequest(new byte[] { 1 }, 5000);
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) OnRemoteControlBtnDown((int)ControlMsg.left);
+        if (Input.GetKeyUp(KeyCode.LeftArrow)) OnRemoteControlBtnUp((int)ControlMsg.left);
+        if (Input.GetKeyDown(KeyCode.RightArrow)) OnRemoteControlBtnDown((int)ControlMsg.right);
+        if (Input.GetKeyUp(KeyCode.RightArrow)) OnRemoteControlBtnUp((int)ControlMsg.right);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) OnRemoteControlBtnDown((int)ControlMsg.forward);
+        if (Input.GetKeyUp(KeyCode.UpArrow)) OnRemoteControlBtnUp((int)ControlMsg.forward);
+        if (Input.GetKeyDown(KeyCode.DownArrow)) OnRemoteControlBtnDown((int)ControlMsg.backward);
+        if (Input.GetKeyUp(KeyCode.DownArrow)) OnRemoteControlBtnUp((int)ControlMsg.backward);
+
+
     }
 
     NetDataWriter cmdWriter = new NetDataWriter(); 
